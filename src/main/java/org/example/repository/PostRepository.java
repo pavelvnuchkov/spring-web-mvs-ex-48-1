@@ -2,19 +2,21 @@ package org.example.repository;
 
 
 import org.example.model.Post;
+import org.example.model.PostDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 @Repository
 public class PostRepository {
-    private List<Post> listPost = new CopyOnWriteArrayList<>();
+    private List<PostDto> listPost = new CopyOnWriteArrayList<>();
     private long numberId;
 
     public List<Post> all() {
-        return listPost;
+        return listPost.stream().filter(o -> !o.isRemoved()).map(PostDto::getPost).collect(Collectors.toList());
     }
 
     public Optional<Post> getById(long id) {
@@ -22,9 +24,9 @@ public class PostRepository {
         if (id > numberId) {
             return postById;
         } else {
-            for (Post post : listPost) {
-                if (post.getId() == id) {
-                    postById = Optional.of(post);
+            for (PostDto post : listPost) {
+                if (post.getPost().getId() == id && !post.isRemoved()) {
+                    postById = Optional.of(post.getPost());
                     break;
                 }
             }
@@ -35,12 +37,13 @@ public class PostRepository {
     public Post save(Post post) {
         if (post.getId() == 0) {
             post.setId(++numberId);
-            listPost.add(post);
+
+            listPost.add(new PostDto(post, false));
             return post;
         } else {
             for (int i = 0; i < listPost.size(); i++) {
-                if (listPost.get(i).getId() == post.getId()) {
-                    listPost.get(i).setContent(post.getContent());
+                if (listPost.get(i).getPost().getId() == post.getId() && !listPost.get(i).isRemoved()) {
+                    listPost.get(i).getPost().setContent(post.getContent());
                     return post;
                 }
             }
@@ -53,8 +56,8 @@ public class PostRepository {
             return;
         }
         for (int i = 0; i < listPost.size(); i++) {
-            if (listPost.get(i).getId() == id) {
-                listPost.remove(i);
+            if (listPost.get(i).getPost().getId() == id) {
+                listPost.get(i).setRemoved(true);
             }
         }
     }
