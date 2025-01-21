@@ -1,8 +1,8 @@
 package org.example.repository;
 
 
-import org.example.model.Post;
 import org.example.model.PostDto;
+import org.example.model.Post;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,19 +12,19 @@ import java.util.stream.Collectors;
 
 @Repository
 public class PostRepository {
-    private List<PostDto> listPost = new CopyOnWriteArrayList<>();
+    private List<Post> listPost = new CopyOnWriteArrayList<>();
     private long numberId;
 
-    public List<Post> all() {
-        return listPost.stream().filter(o -> !o.isRemoved()).map(PostDto::getPost).collect(Collectors.toList());
+    public List<PostDto> all() {
+        return listPost.stream().filter(o -> !o.isRemoved()).map(Post::getPost).collect(Collectors.toList());
     }
 
-    public Optional<Post> getById(long id) {
-        Optional<Post> postById = Optional.empty();
+    public Optional<PostDto> getById(long id) {
+        Optional<PostDto> postById = Optional.empty();
         if (id > numberId) {
             return postById;
         } else {
-            for (PostDto post : listPost) {
+            for (Post post : listPost) {
                 if (post.getPost().getId() == id && !post.isRemoved()) {
                     postById = Optional.of(post.getPost());
                     break;
@@ -34,11 +34,11 @@ public class PostRepository {
         return postById;
     }
 
-    public Post save(Post post) {
+    public PostDto save(PostDto post) {
         if (post.getId() == 0) {
             post.setId(++numberId);
 
-            listPost.add(new PostDto(post, false));
+            listPost.add(new Post(post, false));
             return post;
         } else {
             for (int i = 0; i < listPost.size(); i++) {

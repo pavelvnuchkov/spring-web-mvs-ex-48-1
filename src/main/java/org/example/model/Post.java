@@ -1,30 +1,27 @@
 package org.example.model;
 
 public class Post {
-    private long id;
-    private String content;
+    private PostDto post;
+    private boolean removed;
 
-    public Post() {
+    public Post(PostDto post, boolean removed) {
+        this.post = post;
+        this.removed = removed;
     }
 
-    public Post(long id, String content) {
-        this.id = id;
-        this.content = content;
+    public PostDto getPost() {
+        return post;
     }
 
-    public long getId() {
-        return id;
+    public void setPost(PostDto post) {
+        this.post = post;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public boolean isRemoved() {
+        return removed;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 }

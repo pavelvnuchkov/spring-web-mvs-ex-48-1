@@ -2,7 +2,7 @@ package org.example.service;
 
 
 import org.example.exception.NotFoundException;
-import org.example.model.Post;
+import org.example.model.PostDto;
 import org.example.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +16,16 @@ public class PostService {
         this.repository = repository;
     }
 
-    public List<Post> all() {
+    public List<PostDto> all() {
         return repository.all();
     }
 
-    public Post getById(long id) {
+    public PostDto getById(long id) {
         return repository.getById(id).orElseThrow(NotFoundException::new);
     }
 
-    public Post save(Post post) {
-        Post responsePost = repository.save(post);
+    public PostDto save(PostDto post) {
+        PostDto responsePost = repository.save(post);
         if (responsePost == null) {
             throw new NotFoundException();
         }

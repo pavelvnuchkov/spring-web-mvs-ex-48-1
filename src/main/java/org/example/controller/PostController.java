@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.model.Post;
+import org.example.model.PostDto;
 import org.example.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,18 +18,18 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> all(HttpServletResponse response) {
+    public List<PostDto> all(HttpServletResponse response) {
         return service.all();
 
     }
 
     @GetMapping("/{id}")
-    public Post getById(@PathVariable long id) {
+    public PostDto getById(@PathVariable long id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public Post save(@RequestBody Post post) {
+    public PostDto save(@RequestBody PostDto post) {
         return service.save(post);
     }
 

@@ -1,31 +1,30 @@
 package org.example.model;
 
-import java.awt.*;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 public class PostDto {
-    private Post post;
-    private boolean removed;
+    private long id;
+    private String content;
 
-    public PostDto(Post post, boolean removed) {
-        this.post = post;
-        this.removed = removed;
+    public PostDto() {
     }
 
-    public Post getPost() {
-        return post;
+    public PostDto(long id, String content) {
+        this.id = id;
+        this.content = content;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public long getId() {
+        return id;
     }
 
-    public boolean isRemoved() {
-        return removed;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setRemoved(boolean removed) {
-        this.removed = removed;
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
